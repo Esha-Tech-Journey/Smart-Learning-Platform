@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alphabet Matching Game</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <style>
+        .alphabet-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns */
+            grid-gap: 10px; /* Gap between letters */
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .letter {
+            width: 60px;
+            height: 60px;
+            background-color: #6C63FF;
+            margin: 0;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .selected {
+            background-color: #6C63FF;
+            color: white;
+        }
+        .letter:hover {
+            background-color: #5148CC;
+        }
+        .selected {
+            background-color: #FF6C63;
+            color: white;
+        }
+
+        .hidden {
+    display: none;
+}
+
+#congratulations {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #6C63FF;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Alphabet Matching Game</h1>
+    </header>
+    <main>
+        <div class="alphabet-container">
+            <div class="letter" data-letter="A">A</div>
+            <div class="letter" data-letter="B">B</div>
+            <div class="letter" data-letter="C">C</div>
+            <div class="letter" data-letter="D">D</div>
+            <div class="letter" data-letter="E">E</div>
+            <div class="letter" data-letter="F">F</div>
+            <div class="letter" data-letter="G">G</div>
+            <div class="letter" data-letter="H">H</div>
+            <div class="letter" data-letter="I">I</div>
+            <div class="letter" data-letter="J">J</div>
+            <div class="letter" data-letter="K">K</div>
+            <div class="letter" data-letter="L">L</div>
+            <div class="letter" data-letter="M">M</div>
+            <div class="letter" data-letter="N">N</div>
+            <div class="letter" data-letter="O">O</div>
+            <div class="letter" data-letter="P">P</div>
+            <div class="letter" data-letter="Q">Q</div>
+            <div class="letter" data-letter="R">R</div>
+            <div class="letter" data-letter="S">S</div>
+            <div class="letter" data-letter="T">T</div>
+            <div class="letter" data-letter="U">U</div>
+            <div class="letter" data-letter="V">V</div>
+            <div class="letter" data-letter="W">W</div>
+            <div class="letter" data-letter="X">X</div>
+            <div class="letter" data-letter="Y">Y</div>
+            <div class="letter" data-letter="Z">Z</div>
+            <!-- Add more letters as needed -->
+        </div>
+
+        <div id="congratulations" class="hidden">Congratulations! You have selected all the letters.</div>
+
+    </main>
+    <footer>
+        <p>&copy; 2024 SmartKidsHub. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const letters = document.querySelectorAll('.letter');
+            let selectedLetters = [];
+            const congratulationsMessage = document.getElementById('congratulations');
+    
+            // Shuffle function to randomly reorder the letters
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+    
+            // Shuffle the letters array
+            const shuffledLetters = shuffle(Array.from(letters));
+    
+            // Render the shuffled letters
+            shuffledLetters.forEach((letter, index) => {
+                letter.textContent = String.fromCharCode(65 + index); // Update text content to display letters in order
+                letter.dataset.letter = String.fromCharCode(65 + index); // Update data-letter attribute accordingly
+                letter.classList.remove('selected'); // Remove any existing 'selected' class
+            });
+    
+            letters.forEach(letter => {
+                letter.addEventListener('click', () => {
+                    if (!letter.classList.contains('selected')) {
+                        letter.classList.add('selected');
+                        selectedLetters.push(letter.textContent);
+                    } else {
+                        letter.classList.remove('selected');
+                        selectedLetters = selectedLetters.filter(item => item !== letter.textContent);
+                    }
+    
+                    // Check if all letters are selected
+                    if (selectedLetters.length === letters.length) {
+                        congratulationsMessage.classList.remove('hidden');
+                    } else {
+                        congratulationsMessage.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+    
+    
+    
+    
+</body>
+</html>
